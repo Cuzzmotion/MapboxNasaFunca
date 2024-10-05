@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100vw; /* Ancho del mapa igual al ancho de la ventana */
+    height: 90vh; /* Alto del mapa igual al 90% del alto de la ventana */
+}
+
+#info {
+    padding: 10px;
+    background: #fff;
+    text-align: center;
+}
