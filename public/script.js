@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
     zoom: 1
 });
 
-let gridSize = 0.5; // Valor predeterminado para el tamaño del grid
+let gridSize = 0.02; // Valor predeterminado para el tamaño del grid
 
 // Cargar el archivo GeoJSON de Landsat WRS-2 (descenso)
 map.on('load', () => {
@@ -106,6 +106,8 @@ map.on('click', (e) => {
 });
 
 // Función para mostrar los metadatos en el HTML
+// Función para mostrar los metadatos en el HTML
+// Función para mostrar los metadatos en el HTML
 async function displayMetadata(coords) {
     const metadataDiv = document.getElementById('metadata');
     metadataDiv.innerHTML = ''; // Limpiar metadatos previos
@@ -115,31 +117,41 @@ async function displayMetadata(coords) {
 
     geojson.features.forEach((feature, index) => {
         const properties = feature.properties;
+        
         // Aquí puedes filtrar según la lógica que quieras aplicar (coordenadas o Path y Row)
         if (isCoordinateInsideFeature(coords, feature)) {
-            const metadataItem = document.createElement('div');
-            metadataItem.innerHTML = `
-                <strong>Feature ${index + 1}</strong><br>
-                Path: ${properties.PATH}<br>
-                Row: ${properties.ROW}<br>
-                Área: ${properties.AREA}<br>
-                Secuencia: ${properties.SEQUENCE}<br>
-            `;
-            metadataDiv.appendChild(metadataItem);
+            const detailsItem = document.createElement('details');
+            const summaryItem = document.createElement('summary');
+            summaryItem.innerText = `Feature ${index + 1}`; // Título que se puede hacer clic
+            detailsItem.appendChild(summaryItem);
+
+            // Crear una lista para las propiedades
+            const propertiesList = document.createElement('ul');
+            for (const [key, value] of Object.entries(properties)) {
+                const listItem = document.createElement('li');
+                listItem.innerText = `${key}: ${value}`;
+                propertiesList.appendChild(listItem);
+            }
+
+            detailsItem.appendChild(propertiesList);
+            metadataDiv.appendChild(detailsItem);
         }
     });
 }
 
+
+
 // Función para verificar si las coordenadas están dentro de un feature (simple ejemplo)
 function isCoordinateInsideFeature(coords, feature) {
-    // Aquí puedes agregar lógica para verificar si las coordenadas están dentro del feature
-    // Esto es un ejemplo básico comparando la longitud y latitud del centro del polígono
     const polygon = feature.geometry.coordinates[0];
-    const lngLatCenter = polygon.reduce((acc, coord) => {
-        acc[0] += coord[0];
-        acc[1] += coord[1];
-        return acc;
-    }, [0, 0]).map(val => val / polygon.length);
     
-    return Math.abs(coords.lng - lngLatCenter[0]) < 0.5 && Math.abs(coords.lat - lngLatCenter[1]) < 0.5;
+    // Aumentar el rango de búsqueda
+    const searchRadius = 0.5; // Cambia este valor para ajustar el rango
+
+    return polygon.some((point) => {
+        return (
+            Math.abs(coords.lng - point[0]) < searchRadius &&
+            Math.abs(coords.lat - point[1]) < searchRadius
+        );
+    });
 }

@@ -14,3 +14,16 @@ body {
     background: #fff;
     text-align: center;
 }
+details {
+    margin-bottom: 10px; /* Espaciado entre elementos */
+}
+
+summary {
+    font-weight: bold; /* Destacar el título */
+    cursor: pointer; /* Cambiar el cursor para indicar que es clickeable */
+}
+
+ul {
+    margin: 0; /* Eliminar margen por defecto */
+    padding-left: 20px; /* Indentación para la lista */
+}
