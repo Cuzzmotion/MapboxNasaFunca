@@ -10,7 +10,17 @@
 </head>
 <body>
     <div id="map"></div>
-    <div id="info">Click on the map to get coordinates.</div>
+    <div id="info">Apreta aqui para obtener coordenadas.</div>
+
+    <!-- Controles para cambiar la altura y el ancho del grid -->
+    <label for="gridWidth">Ancho del Grid:</label>
+    <input type="number" id="gridWidth" placeholder="Ancho en grados" value="0.02">
+    <label for="gridHeight">Alto del Grid:</label>
+    <input type="number" id="gridHeight" placeholder="Alto en grados" value="0.02">
+    <button id="updateGrid">Actualizar Grid</button>
+
+    <h2>Metadatos detectados</h2>
+    <div id="metadata"></div>
 
     <script src="script.js"></script>
 </body>

@@ -5,8 +5,8 @@ body {
 }
 
 #map {
-    width: 100vw; /* Ancho del mapa igual al ancho de la ventana */
-    height: 90vh; /* Alto del mapa igual al 90% del alto de la ventana */
+    width: 100vw;
+    height: 90vh;
 }
 
 #info {
